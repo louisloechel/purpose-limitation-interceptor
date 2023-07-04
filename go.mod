@@ -1,4 +1,4 @@
-module github.com/louisloechel/purpose-limitation-interceptor
+module github.com/louisloechel/purposelimiter
 
 go 1.20
 
