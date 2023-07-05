@@ -12,7 +12,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"math/rand"
 	"strings"
 	"time"
@@ -100,14 +99,9 @@ func interceptor(
 			var fieldNames []string
 
 			reflectedMsg.Range(func(fd protoreflect.FieldDescriptor, v protoreflect.Value) bool {
-				name, err := getLastPart(string(fd.FullName()))
 
-				if err != nil {
-					fmt.Println("Error:", err)
-				} else {
-					fieldNames = append(fieldNames, name)
-					// fmt.Printf("Field: %s\tValue: %v\n", fd.FullName(), v)
-				}
+				name := fd.TextName()
+				fieldNames = append(fieldNames, name)
 
 				return true
 			})
@@ -134,7 +128,6 @@ func interceptor(
 							reflectedMsg.Set(reflectedMsg.Descriptor().Fields().ByName(protoreflect.Name(field)), protoreflect.ValueOf(noiseString(reflectedMsg.Get(reflectedMsg.Descriptor().Fields().ByName(protoreflect.Name(field))).String())))
 						}
 					} else if contains(claims.Policy.Reduced, field) {
-						log.Printf("\nField: %v", field)
 						// Reduce the field
 						switch reflectedMsg.Descriptor().Fields().ByName(protoreflect.Name(field)).Kind() {
 						case protoreflect.Int32Kind:
