@@ -10,10 +10,8 @@ package purposelimiter
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"math/rand"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -202,14 +200,4 @@ func reduceString(text string) string {
 func contains(m map[string]string, key string) bool {
 	_, ok := m[key]
 	return ok
-}
-
-// getLastPart returns the last part of a string separated by dots
-// e.g., main.HelloReply.name --> name
-func getLastPart(s string) (string, error) {
-	parts := strings.Split(s, ".")
-	if len(parts) < 1 {
-		return "", errors.New("input string is empty")
-	}
-	return parts[len(parts)-1], nil
 }
